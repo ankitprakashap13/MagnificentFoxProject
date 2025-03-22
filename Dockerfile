@@ -26,9 +26,11 @@ ENV PYTHONUNBUFFERED 1
 # Set working directory
 WORKDIR /app
 
+# Fix: Create Python Symlink
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
 # Install system dependencies for MySQL, Pillow, and other required libraries
 RUN apt-get update && apt-get install -y \
-    nginx \
     pkg-config \
     default-libmysqlclient-dev \
     default-mysql-client \
@@ -57,37 +59,29 @@ COPY .env /app/.env
 # Copy React build files to Django’s static folder
 COPY --from=frontend /app/ux-magnificent-fox/build /app/static/
 
-# Correct path for Nginx configuration
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
-
-# Expose ports for Django (8000) and Nginx (80)
-EXPOSE 80 8000
+EXPOSE 8000
 
 # Copy and make the entrypoint script executable
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
-# Start Django and Nginx together
-CMD ["sh", "-c", "/app/entrypoint.sh & nginx -g 'daemon off;'"]
+# Start Django
+CMD ["/app/entrypoint.sh"]
 
-# Stage 3: Serve React App
-FROM node:23
+# Stage 3: Nginx Server
+FROM nginx:latest AS nginx
 
-# Set the working directory
+# Set working directory
 WORKDIR /app
 
-# Copy the build files from the previous stage
-COPY --from=frontend /app/ux-magnificent-fox/build ./ux-magnificent-fox/build
+# Copy React build files
+COPY --from=frontend /app/ux-magnificent-fox/build /usr/share/nginx/html
 
-# Copy the server.js file
-COPY ux-magnificent-fox/server.js ./ux-magnificent-fox/
+# Copy custom Nginx configuration
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
-# Install only production dependencies
-COPY ux-magnificent-fox/package*.json ./ux-magnificent-fox/
-RUN cd ux-magnificent-fox && npm install --only=production
+# Expose ports for Nginx (80 & 443)
+EXPOSE 80 443
 
-# Expose the port the app runs on
-EXPOSE 3000
-
-# Start the Node.js server
-CMD ["node", "ux-magnificent-fox/server.js"]
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
