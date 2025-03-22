@@ -1,9 +1,21 @@
 version: "3.8"
 
 services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend-server
+    container_name: magnificentfox_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: always
+
   backend:
     build:
-      context: . 
+      context: .
       dockerfile: Dockerfile
       target: backend
     container_name: magnificentfox_backend
@@ -31,7 +43,7 @@ services:
     env_file:
       - .env
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}  # Required!
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWORD}
@@ -48,25 +60,15 @@ services:
     container_name: magnificentfox_nginx
     restart: always
     ports:
-      - "8080:80"   # HTTP port
-      - "443:443"   # HTTPS port
+      - "8080:80"
+      - "443:443"
     volumes:
       - static_volume:/app/static
       - media_volume:/app/media
       - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - backend
-
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: frontend
-    container_name: magnificentfox_frontend
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
+      - frontend
 
 volumes:
   db_data:
