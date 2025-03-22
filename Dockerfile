@@ -38,14 +38,14 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copy Django project files
 COPY MagnificentFox /app/
 
-# ✅ FIX: Copy .env from root (not inside MagnificentFox/)
+# Copy .env from the root directory
 COPY .env /app/.env
 
 # Copy React build files to Django’s static folder
 COPY --from=frontend /app/ux-magnificent-fox/build /app/static/
 
-# Copy Nginx configuration
-COPY MagnificentFox/nginx/default.conf /etc/nginx/conf.d/default.conf
+# Correct path for Nginx configuration
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Expose ports for Django (8000) and Nginx (80)
 EXPOSE 80 8000
