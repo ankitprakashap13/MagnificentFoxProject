@@ -1,0 +1,8 @@
+Django==5.1.7
+djangorestframework
+mysqlclient==2.2.0
+django-cors-headers
+python-decouple
+Cython
+django-environ
+gunicorn

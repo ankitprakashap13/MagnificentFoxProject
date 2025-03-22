@@ -1,0 +1,24 @@
+{
+  "sections": [
+    {
+      "columns": [
+        {
+          "link": "/collections/sleepwear",
+          "image": "//massio.in/cdn/shop/files/Untitled_design_7_bf332ca3-0ea7-452f-aa9a-4bf60583f271.png?v=1729074489&width=1200",
+          "text": {
+            "title": "SLEEPWEAR",
+            "description": "Always wear cute PJ's to bed, you never know who you might meet in your dreams."
+          }
+        },
+        {
+          "link": "/collections/loungewear-1",
+          "image": "//massio.in/cdn/shop/files/7_c2820747-f4d4-4aa3-ab4c-59b343117c8a.png?v=1722594209&width=1200",
+          "text": {
+            "title": "LOUNGEWEAR",
+            "description": "Love affair with comfy wear"
+          }
+        }
+      ]
+    }
+  ]
+}

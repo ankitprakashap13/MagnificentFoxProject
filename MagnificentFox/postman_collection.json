@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "MagnificentFox API",
+    "_postman_id": "12345678-1234-1234-1234-123456789012",
+    "description": "Postman collection for MagnificentFox API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"username\": \"user1\",\n    \"name\": \"User 1\",\n    \"email\": \"user1@example.com\",\n    \"mobile\": \"1234567890\",\n    \"password\": \"password\",\n    \"dob\": \"2000-01-01\",\n    \"gender\": \"Male\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/api/users/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "users"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/products/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "products"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"user\": 1,\n    \"total_price\": 100.0,\n    \"order_items\": [\n        {\n            \"product\": 1,\n            \"quantity\": 2,\n            \"price\": 50.0\n        }\n    ]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/api/orders/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "orders"
+          ]
+        }
+      }
+    }
+  ]
+}

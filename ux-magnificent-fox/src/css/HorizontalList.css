@@ -1,0 +1,25 @@
+.horizontal-list {
+  display: flex;
+  overflow-x: scroll;
+}
+
+.horizontal-list-item {
+  flex: 0 0 auto;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.horizontal-list-item img,
+.horizontal-list-item video {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.horizontal-list-item p {
+  margin-bottom: 10px;
+}
+
+.horizontal-list-item button {
+  padding: 10px 20px;
+}

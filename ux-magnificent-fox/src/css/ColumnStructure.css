@@ -1,0 +1,51 @@
+.column-structure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+  gap: 20px;
+}
+
+.column-structure img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.column-structure p {
+  margin-bottom: 10px;
+}
+
+.column-structure button {
+  padding: 10px 20px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.column {
+  flex: 1;
+  min-width: 300px;
+  text-align: center;
+}
+
+.column img {
+  max-width: 100%;
+  height: auto;
+}
+
+.content-box {
+  margin-top: 10px;
+}
+
+.content-box h2 {
+  margin: 10px 0 5px;
+}
+
+.content-box p {
+  margin: 0;
+}
