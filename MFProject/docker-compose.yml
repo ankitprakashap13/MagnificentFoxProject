@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: magnificentfox_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: ./MagnificentFox  # Points to Django backend
+    container_name: magnificentfox_web
+    restart: always
+    command: >
+      sh -c "
+      until mysqladmin ping -h \"$DB_HOST\" --silent; do
+        echo 'Waiting for MySQL...';
+        sleep 5;
+      done;
+      python3 manage.py collectstatic --noinput &&
+      python3 manage.py makemigrations &&
+      python3 manage.py migrate &&
+      gunicorn --workers 3 --bind 0.0.0.0:8000 MagnificentFox.wsgi:application"
+    volumes:
+      - ./MagnificentFox/static:/app/static
+      - ./MagnificentFox/media:/app/media
+    expose:
+      - "8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+
+  react:
+    build: ./ux-magnificent-fox  # Points to React frontend
+    container_name: magnificentfox_react
+    restart: always
+    ports:
+      - "3000:80"  # React is served on port 3000
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - web
+
+  nginx:
+    image: nginx:latest
+    container_name: magnificentfox_nginx
+    restart: always
+    volumes:
+      - ./MagnificentFox/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./MagnificentFox/static:/app/static
+      - ./MagnificentFox/media:/app/media
+      - /etc/letsencrypt:/etc/letsencrypt
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - web
+      - react
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  db_data:

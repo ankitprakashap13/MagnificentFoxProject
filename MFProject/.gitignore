@@ -1,0 +1,45 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env
+*.env
+
+# Django stuff
+db.sqlite3
+/media/
+/static/
+
+# Django logs
+*.log
+logs/
+debug.log
+
+# Ignore local development settings
+settings_local.py
+.envrc
+
+# Node.js dependencies (React)
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# React build files
+/build/
+
+# Docker
+docker-compose.override.yml
+*.container
+*.tar
+.dockerignore
+
+# Ignore IDE / Editor config
+.vscode/
+.idea/
+*.swp
+*~ 
+.DS_Store
