@@ -6,6 +6,6 @@ sudo docker-compose logs web
 
 sudo docker-composeexecwebsh
 
-python3manage.pymigrate
+python3 manage.pymigrate
 
-python3manage.pycollectstatic--noinput
+python3 manage.pycollectstatic--noinput
