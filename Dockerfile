@@ -21,7 +21,7 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 
 # Copy the requirements file and install dependencies
-COPY MagnificentFox/requirements.txt /app/
+COPY requirements.txt /app/
 RUN apt-get update && apt-get install -y \
     nginx \
     pkg-config \
@@ -51,7 +51,7 @@ COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80 8000
 
 # Copy and make the entrypoint script executable
-COPY MagnificentFox/entrypoint.sh /app/entrypoint.sh
+COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
 # Start Django and Nginx together
