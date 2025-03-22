@@ -20,8 +20,7 @@ ENV PYTHONUNBUFFERED 1
 # Set working directory
 WORKDIR /app
 
-# Copy the requirements file and install dependencies
-COPY requirements.txt /app/
+# Install system dependencies for MySQL, Pillow, and other required libraries
 RUN apt-get update && apt-get install -y \
     nginx \
     pkg-config \
@@ -32,7 +31,15 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libyaml-dev \
     netcat-traditional \
+    libjpeg-dev \
+    zlib1g-dev \
+    libfreetype6-dev \
+    libtiff5-dev \
+    libwebp-dev \
     && rm -rf /var/lib/apt/lists/*
+
+# Copy the requirements file and install dependencies
+COPY requirements.txt /app/
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Copy Django project files
