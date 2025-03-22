@@ -3,19 +3,17 @@ version: "3.8"
 services:
   web:
     build:
-      context: .  # Build from the root directory
-      dockerfile: Dockerfile  # Ensure Dockerfile is correctly referenced
+      context: . 
+      dockerfile: Dockerfile
     container_name: magnificentfox_web
     restart: always
     env_file:
-      - .env  # Load environment variables from root
+      - .env  
     volumes:
-      - ./MagnificentFox:/app  # Mount backend code
-      - static_volume:/app/static  # Serve static files
-      - media_volume:/app/media  # Serve media files
+      - static_volume:/app/static
+      - media_volume:/app/media
     ports:
-      - "8000:8000"  # Django app
-      - "80:80"  # Nginx for frontend
+      - "8000:8000"
     depends_on:
       - db
     command: >
@@ -25,25 +23,12 @@ services:
       gunicorn MagnificentFox.wsgi:application --bind 0.0.0.0:8000
       "
 
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile  # Build frontend from same Dockerfile
-      target: frontend  # Use frontend stage in multi-stage build
-    container_name: magnificentfox_frontend
-    restart: always
-    volumes:
-      - ./ux-magnificent-fox:/app
-      - frontend_build:/app/build
-    depends_on:
-      - web
-
   db:
     image: mysql:8
     container_name: magnificentfox_db
     restart: always
     env_file:
-      - .env  # Use the same .env file for DB credentials
+      - .env
     ports:
       - "3306:3306"
     volumes:
@@ -54,18 +39,15 @@ services:
     container_name: magnificentfox_nginx
     restart: always
     ports:
-      - "80:80"
+      - "8080:80"  # Change if 80 is in use
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - static_volume:/app/static
       - media_volume:/app/media
-      - frontend_build:/usr/share/nginx/html
     depends_on:
       - web
-      - frontend
 
 volumes:
   db_data:
   static_volume:
   media_volume:
-  frontend_build:
