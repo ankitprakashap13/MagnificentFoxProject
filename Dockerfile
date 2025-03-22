@@ -1,13 +1,19 @@
 # Stage 1: Build React App
 FROM node:23 AS frontend
+
+# Set the working directory
 WORKDIR /app
 
-# Copy package files and install dependencies
+# Copy package.json and package-lock.json
 COPY ux-magnificent-fox/package*.json ./ux-magnificent-fox/
+
+# Install dependencies
 RUN cd ux-magnificent-fox && npm install
 
-# Copy the rest of the frontend code and build
-COPY ux-magnificent-fox ./ux-magnificent-fox/
+# Copy the rest of the application code
+COPY ux-magnificent-fox ./ux-magnificent-fox
+
+# Build the React app
 RUN cd ux-magnificent-fox && npm run build
 
 # Stage 2: Build Django Backend
@@ -63,3 +69,25 @@ RUN chmod +x /app/entrypoint.sh
 
 # Start Django and Nginx together
 CMD ["sh", "-c", "/app/entrypoint.sh & nginx -g 'daemon off;'"]
+
+# Stage 3: Serve React App
+FROM node:23
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the build files from the previous stage
+COPY --from=frontend /app/ux-magnificent-fox/build ./ux-magnificent-fox/build
+
+# Copy the server.js file
+COPY ux-magnificent-fox/server.js ./ux-magnificent-fox/
+
+# Install only production dependencies
+COPY ux-magnificent-fox/package*.json ./ux-magnificent-fox/
+RUN cd ux-magnificent-fox && npm install --only=production
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Start the Node.js server
+CMD ["node", "ux-magnificent-fox/server.js"]
