@@ -38,6 +38,9 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copy Django project files
 COPY MagnificentFox /app/
 
+# ✅ FIX: Copy .env from root (not inside MagnificentFox/)
+COPY .env /app/.env
+
 # Copy React build files to Django’s static folder
 COPY --from=frontend /app/ux-magnificent-fox/build /app/static/
 
