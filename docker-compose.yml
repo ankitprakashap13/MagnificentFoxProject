@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: frontend-server
+      target: frontend
     container_name: magnificentfox_frontend
     ports:
       - "3000:3000"
