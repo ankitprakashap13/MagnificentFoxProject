@@ -3,13 +3,21 @@ FROM node:23 AS frontend
 
 WORKDIR /app/ux-magnificent-fox
 
-# Copy package.json & install dependencies first (leverages Docker caching)
 COPY ux-magnificent-fox/package*.json ./
 RUN npm install
 
-# Copy the rest of the frontend code & build
 COPY ux-magnificent-fox/ ./
 RUN npm run build
+
+# Install a lightweight Node.js server (serve)
+RUN npm install -g serve
+
+# Expose port 3000 for the server
+EXPOSE 3000
+
+# Run the server to serve the frontend build
+CMD ["serve", "-s", "build", "-l", "3000"]
+
 
 # Stage 2: Build Django Backend
 FROM python:3.13.2-slim AS backend
@@ -58,7 +66,6 @@ CMD ["./entrypoint.sh"]
 # Stage 3: Nginx Server
 FROM nginx:latest AS nginx
 
-# Copy React build files to serve as static files
 COPY --from=frontend /app/ux-magnificent-fox/build /usr/share/nginx/html
 
 # Copy custom Nginx configuration
