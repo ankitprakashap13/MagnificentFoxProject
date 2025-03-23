@@ -11,7 +11,6 @@ RUN npm install
 COPY ux-magnificent-fox/ ./
 RUN npm run build
 
-
 # Stage 2: Build Django Backend
 FROM python:3.13.2-slim AS backend
 
@@ -21,8 +20,21 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 
 # Install required system dependencies & Python packages
-COPY requirements-system.txt /app/
-RUN apt-get update && xargs apt-get install -y < /app/requirements-system.txt && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    pkg-config \
+    default-libmysqlclient-dev \
+    default-mysql-client \
+    gcc \
+    python3-dev \
+    build-essential \
+    libyaml-dev \
+    netcat-traditional \
+    libjpeg-dev \
+    zlib1g-dev \
+    libfreetype6-dev \
+    libtiff5-dev \
+    libwebp-dev && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
 COPY requirements.txt .
@@ -33,7 +45,7 @@ COPY MagnificentFox/ ./
 COPY .env .
 
 # Copy React build files to Django’s static folder
-COPY --from=frontend /app/ux-magnificent-fox/build static/
+COPY --from=frontend /app/ux-magnificent-fox/build /app/static/
 
 EXPOSE 8000
 
@@ -42,7 +54,6 @@ COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
 CMD ["./entrypoint.sh"]
-
 
 # Stage 3: Nginx Server
 FROM nginx:latest AS nginx
