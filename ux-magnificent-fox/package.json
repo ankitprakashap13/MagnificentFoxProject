@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "atomize": "^1.0.28",
     "axios": "^1.8.3",
+    "dotenv": "^10.0.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-router-dom": "^5.3.0",

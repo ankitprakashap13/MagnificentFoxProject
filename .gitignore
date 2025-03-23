@@ -30,6 +30,7 @@ yarn-error.log
 
 # React build files
 /build/
+build/
 
 # Docker
 docker-compose.override.yml

@@ -14,6 +14,7 @@ import Collections from './components/Collections';
 import Favourites from './components/Favourites';
 import Reviews from './components/Reviews';
 import VideoCards from './components/VideoCards';
+import NotFound from './components/NotFound';
 
 const theme = {
   offersBanner: {
@@ -35,22 +36,45 @@ function App() {
   const [reviewsData, setReviewsData] = useState([]);
   const [videoCardsData, setVideoCardsData] = useState([]);
   const [products, setProducts] = useState([]);
+  const [apiError, setApiError] = useState(false);
 
   useEffect(() => {
-    axios.get('/api/cardListData').then(response => setCardListData(response.data));
-    axios.get('/api/columnStructureData').then(response => setColumnStructureData(response.data));
-    axios.get('/api/favouritesData').then(response => setFavouritesData(response.data));
-    axios.get('/api/reviewsData').then(response => setReviewsData(response.data));
-    axios.get('/api/videoCardsData').then(response => setVideoCardsData(response.data));
-    axios.get('/api/products').then(response => {
-      const productsData = response.data.order_items.map(item => ({
-        product: item.product,
-        quantity: item.quantity,
-        price: item.price
-      }));
-      setProducts(productsData);
-    });
+    const fetchData = async () => {
+      try {
+        const cardListResponse = await axios.get('/api/cardListData');
+        setCardListData(cardListResponse.data);
+
+        const columnStructureResponse = await axios.get('/api/columnStructureData');
+        setColumnStructureData(columnStructureResponse.data);
+
+        const favouritesResponse = await axios.get('/api/favouritesData');
+        setFavouritesData(favouritesResponse.data);
+
+        const reviewsResponse = await axios.get('/api/reviewsData');
+        setReviewsData(reviewsResponse.data);
+
+        const videoCardsResponse = await axios.get('/api/videoCardsData');
+        setVideoCardsData(videoCardsResponse.data);
+
+        const productsResponse = await axios.get('/api/products');
+        const productsData = productsResponse.data.order_items.map(item => ({
+          product: item.product,
+          quantity: item.quantity,
+          price: item.price
+        }));
+        setProducts(productsData);
+      } catch (error) {
+        console.error("Error fetching data from API:", error);
+        setApiError(true);
+      }
+    };
+
+    fetchData();
   }, []);
+
+  if (apiError) {
+    return <NotFound />;
+  }
 
   return (
     <ThemeContextProvider>
@@ -73,6 +97,7 @@ function App() {
                     <VideoCards cards={videoCardsData || []} />
                     <Footer theme={theme.footer} />
                   </Route>
+                  <Route component={NotFound} />
                 </Switch>
               </header>
             </div>
