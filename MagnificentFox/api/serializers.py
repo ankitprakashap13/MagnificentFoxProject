@@ -22,3 +22,6 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'user', 'created_at', 'updated_at', 'total_price', 'status', 'order_items']
+
+class ColumnStructureSerializer(serializers.Serializer):
+    message = serializers.CharField()

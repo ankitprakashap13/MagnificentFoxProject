@@ -29,6 +29,8 @@ const theme = {
   },
 };
 
+const API_BASE_URL = process.env.BACKEND_SERVER_URL || 'https://api.magnificentfox.shop';
+
 function App() {
   const [cardListData, setCardListData] = useState([]);
   const [columnStructureData, setColumnStructureData] = useState([]);
@@ -41,22 +43,22 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const cardListResponse = await axios.get('/api/cardListData');
+        const cardListResponse = await axios.get(`${API_BASE_URL}/api/cardListData`);
         setCardListData(cardListResponse.data);
 
-        const columnStructureResponse = await axios.get('/api/columnStructureData');
+        const columnStructureResponse = await axios.get(`${API_BASE_URL}/columnStructureData`);
         setColumnStructureData(columnStructureResponse.data);
 
-        const favouritesResponse = await axios.get('/api/favouritesData');
+        const favouritesResponse = await axios.get(`${API_BASE_URL}/favouritesData`);
         setFavouritesData(favouritesResponse.data);
 
-        const reviewsResponse = await axios.get('/api/reviewsData');
+        const reviewsResponse = await axios.get(`${API_BASE_URL}/reviewsData`);
         setReviewsData(reviewsResponse.data);
 
-        const videoCardsResponse = await axios.get('/api/videoCardsData');
+        const videoCardsResponse = await axios.get(`${API_BASE_URL}/videoCardsData`);
         setVideoCardsData(videoCardsResponse.data);
 
-        const productsResponse = await axios.get('/api/products');
+        const productsResponse = await axios.get(`${API_BASE_URL}/products`);
         const productsData = productsResponse.data.order_items.map(item => ({
           product: item.product,
           quantity: item.quantity,
