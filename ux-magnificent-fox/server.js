@@ -5,12 +5,13 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
 const PORT = process.env.FRONTEND_PORT || 3000;
-const BACKEND_SERVER = process.env.BACKEND_SERVER_URL || 'http://localhost:8000';
+const BACKEND_SERVER = process.env.BACKEND_SERVER_URL || 'https://api.magnificentfox.shop';
 
 // Proxy configuration
 const apiProxy = createProxyMiddleware('/api', {
   target: BACKEND_SERVER,
   changeOrigin: true,
+  pathRewrite: { '^/api': '' }
 });
 
 app.use('/api', apiProxy);
