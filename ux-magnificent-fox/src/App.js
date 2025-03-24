@@ -43,7 +43,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const cardListResponse = await axios.get(`${API_BASE_URL}/api/cardListData`);
+        const cardListResponse = await axios.get(`${API_BASE_URL}/cardListData`);
         setCardListData(cardListResponse.data);
 
         const columnStructureResponse = await axios.get(`${API_BASE_URL}/columnStructureData`);
