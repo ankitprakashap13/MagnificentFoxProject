@@ -33,10 +33,19 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['127.0.0.1', 'localhost','magnificentfox.shop',"magnificentfox_web"])
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[
+    '127.0.0.1', 
+    'localhost',
+    'magnificentfox.shop',
+    'admin.magnificentfox.shop',
+    'api.magnificentfox.shop',
+    'magnificentfox_web'
+])
 
 CSRF_TRUSTED_ORIGINS = [
     'https://magnificentfox.shop',
+    'https://admin.magnificentfox.shop',
+    'https://api.magnificentfox.shop',
 ]
 
 # Application definition
