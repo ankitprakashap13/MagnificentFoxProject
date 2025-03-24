@@ -29,7 +29,7 @@ const theme = {
   },
 };
 
-const API_BASE_URL = process.env.BACKEND_SERVER_URL || 'http://localhost:8000/api';
+const API_BASE_URL = process.env.BACKEND_SERVER_URL || 'https://api.magnificentfox.shop/api';
 
 function App() {
   const [cardListData, setCardListData] = useState([]);
