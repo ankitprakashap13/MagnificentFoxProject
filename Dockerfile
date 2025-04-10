@@ -64,11 +64,20 @@ RUN chmod +x entrypoint.sh
 CMD ["./entrypoint.sh"]
 
 # Stage 3: Nginx Server
-FROM nginx:latest AS nginx
+FROM nginx:alpine AS nginx
 
+# Install curl to fetch SSL config files
+RUN apk add --no-cache curl
+
+# Create necessary directory & download SSL configs
+RUN mkdir -p /etc/letsencrypt && \
+    curl -o /etc/letsencrypt/options-ssl-nginx.conf https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf && \
+    curl -o /etc/letsencrypt/ssl-dhparams.pem https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem
+
+# Copy React build files into NGINX web root
 COPY --from=frontend /app/ux-magnificent-fox/build /usr/share/nginx/html
 
-# Copy custom Nginx configuration
+# Copy your custom NGINX config
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80 443
