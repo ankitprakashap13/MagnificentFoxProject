@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   frontend:
     build:
@@ -65,19 +67,39 @@ services:
     volumes:
       - static_volume:/app/static
       - media_volume:/app/media
-      - /etc/letsencrypt:/etc/letsencrypt
-      - /var/www/certbot:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
     depends_on:
       - backend
       - frontend
 
+  # 🔐 One-time SSL certificate request
+  certbot_init:
+    image: certbot/certbot
+    container_name: magnificentfox_certbot_init
+    depends_on:
+      - nginx
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: >
+      certbot certonly --webroot
+      --webroot-path=/var/www/certbot
+      --email your@email.com
+      --agree-tos
+      --no-eff-email
+      -d magnificentfox.shop
+      -d www.magnificentfox.shop
+      -d api.magnificentfox.shop
+      -d admin.magnificentfox.shop
+
+  # 🔁 Background renewals
   certbot:
     image: certbot/certbot
     container_name: magnificentfox_certbot
     volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-      - /var/lib/letsencrypt:/var/lib/letsencrypt
-      - /var/www/certbot:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot --quiet; sleep 12h & wait $${!}; done'"
     depends_on:
       - nginx
