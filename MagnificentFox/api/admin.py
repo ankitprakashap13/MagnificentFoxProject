@@ -14,3 +14,7 @@ admin.site.register(CartItem)
 admin.site.register(Wishlist)
 admin.site.register(WishlistItem)
 admin.site.register(OTP)
+
+admin.site.site_header = "Magnificent Fox Administration"
+admin.site.site_title = "Magnificent Fox Admin Portal"
+admin.site.index_title = "Welcome to the Magnificent Fox Admin"
