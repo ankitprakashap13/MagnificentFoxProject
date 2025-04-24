@@ -1,11 +1,83 @@
 {
   "info": {
-    "name": "MagnificentFox API",
-    "_postman_id": "12345678-1234-1234-1234-123456789012",
-    "description": "Postman collection for MagnificentFox API",
+    "name": "MagnificentFox API Collection",
+    "_postman_id": "unique-id-here",
+    "description": "Postman collection for MagnificentFox API endpoints.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
+    {
+      "name": "Column Structure Data",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/column-structure-data/",
+          "host": ["{{base_url}}"],
+          "path": ["api", "column-structure-data"]
+        }
+      }
+    },
+    {
+      "name": "List Products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/list-products/",
+          "host": ["{{base_url}}"],
+          "path": ["api", "list-products"]
+        }
+      }
+    },
+    {
+      "name": "Card List Data",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/card-list-data/",
+          "host": ["{{base_url}}"],
+          "path": ["api", "card-list-data"]
+        }
+      }
+    },
+    {
+      "name": "Favourites Data",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/favourites-data/",
+          "host": ["{{base_url}}"],
+          "path": ["api", "favourites-data"]
+        }
+      }
+    },
+    {
+      "name": "Reviews Data",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/reviews-data/",
+          "host": ["{{base_url}}"],
+          "path": ["api", "reviews-data"]
+        }
+      }
+    },
+    {
+      "name": "Video Cards Data",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/video-cards-data/",
+          "host": ["{{base_url}}"],
+          "path": ["api", "video-cards-data"]
+        }
+      }
+    },
     {
       "name": "Create User",
       "request": {
@@ -80,6 +152,12 @@
           ]
         }
       }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000"
     }
   ]
 }
