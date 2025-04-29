@@ -29,7 +29,8 @@ const theme = {
   },
 };
 
-const API_BASE_URL = process.env.BACKEND_SERVER_URL || 'https://api.magnificentfox.shop/api';
+// const API_BASE_URL = process.env.BACKEND_SERVER_URL || 'https://api.magnificentfox.shop/api';
+const API_BASE_URL = process.env.BACKEND_SERVER_URL || 'http://localhost:8000/api';
 
 function App() {
   const [cardListData, setCardListData] = useState([]);
@@ -43,19 +44,19 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const cardListResponse = await axios.get(`${API_BASE_URL}/cardListData`);
+        const cardListResponse = await axios.get(`${API_BASE_URL}/card-list-data`);
         setCardListData(cardListResponse.data);
 
-        const columnStructureResponse = await axios.get(`${API_BASE_URL}/columnStructureData`);
+        const columnStructureResponse = await axios.get(`${API_BASE_URL}/column-structure-data`);
         setColumnStructureData(columnStructureResponse.data);
 
-        const favouritesResponse = await axios.get(`${API_BASE_URL}/favouritesData`);
+        const favouritesResponse = await axios.get(`${API_BASE_URL}/favourites-data`);
         setFavouritesData(favouritesResponse.data);
 
-        const reviewsResponse = await axios.get(`${API_BASE_URL}/reviewsData`);
+        const reviewsResponse = await axios.get(`${API_BASE_URL}/reviews-data`);
         setReviewsData(reviewsResponse.data);
 
-        const videoCardsResponse = await axios.get(`${API_BASE_URL}/videoCardsData`);
+        const videoCardsResponse = await axios.get(`${API_BASE_URL}/video-cards-data`);
         setVideoCardsData(videoCardsResponse.data);
 
         const productsResponse = await axios.get(`${API_BASE_URL}/products`);
@@ -99,7 +100,7 @@ function App() {
                     <VideoCards cards={videoCardsData || []} />
                     <Footer theme={theme.footer} />
                   </Route>
-                  <Route component={NotFound} />
+                  {/* <Route component={NotFound} /> */}
                 </Switch>
               </header>
             </div>

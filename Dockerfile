@@ -25,8 +25,6 @@ WORKDIR /app
 # Install required system dependencies & Python packages
 RUN apt-get update && apt-get install -y \
     pkg-config \
-    default-libmysqlclient-dev \
-    default-mysql-client \
     gcc \
     python3-dev \
     build-essential \

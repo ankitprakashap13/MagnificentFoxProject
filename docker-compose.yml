@@ -29,30 +29,12 @@ services:
       - media_volume:/app/media
     ports:
       - "8000:8000"
-    depends_on:
-      - db
     command: >
       sh -c "
       python manage.py collectstatic --noinput &&
       python manage.py migrate &&
       gunicorn MagnificentFox.wsgi:application --bind 0.0.0.0:8000
       "
-
-  db:
-    image: mysql:8
-    container_name: magnificentfox_db
-    restart: always
-    env_file:
-      - .env
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${DB_NAME}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-    ports:
-      - "3307:3306"
-    volumes:
-      - db_data:/var/lib/mysql
 
   nginx:
     build:
@@ -104,6 +86,5 @@ services:
       - nginx
 
 volumes:
-  db_data:
   static_volume:
   media_volume:
